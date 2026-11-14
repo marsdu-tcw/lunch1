@@ -1,17 +1,8 @@
 /**
  * 2026 聖誕季｜小組聖誕餐會報名系統 - Google 試算表後端腳本 (Google Apps Script)
  *
- * 【使用步驟】
- * 1. 新增一個空白的 Google 試算表 (Google Sheets)
- * 2. 點選上方選單「擴充功能」 -> 「Apps Script」
- * 3. 將本檔案所有程式碼貼上（覆蓋原本的 function myFunction()）
- * 4. 點選上方「部署」 -> 「新增部署作業」
- * 5. 左側齒輪選擇「網頁應用程式 (Web App)」：
- *    - 說明：聖誕餐會報名 API
- *    - 執行身分：「我 (Me)」
- *    - 誰可以存取：「所有人 (Anyone)」
- * 6. 點選「部署」，授權後複製產生的「網頁應用程式網址 (https://script.google.com/macros/s/.../exec)」
- * 7. 貼入網頁右上角「⚙️ 設定」或 index.html 的 GOOGLE_SCRIPT_URL 即可即時連動！
+ * 【欄位結構】
+ * 報名時間 | 出席的弟兄或姊妹姓名 | 聯絡電話 | 所屬小組 | 總出席人數 | 是否攜帶新朋友 | 新朋友人數 | 新朋友姓名 | 備註（由哪位弟兄或姊妹帶來） | 飲食需求 | 過敏或飲食備註
  */
 
 const SHEET_NAME = '報名名單';
@@ -23,14 +14,14 @@ function getOrCreateSheet() {
     sheet = ss.insertSheet(SHEET_NAME);
     const headers = [
       '報名時間',
-      '姓名',
+      '出席的弟兄或姊妹姓名',
       '聯絡電話',
       '所屬小組',
-      '大人人數',
-      '小孩人數',
-      '總人數',
+      '總出席人數',
       '是否攜帶新朋友',
       '新朋友人數',
+      '新朋友姓名',
+      '備註（由哪位弟兄或姊妹帶來）',
       '飲食需求',
       '過敏或飲食備註'
     ];
@@ -51,14 +42,14 @@ function doGet(e) {
     const rows = data.slice(1).map((row, idx) => ({
       id: 'row-' + (idx + 2),
       createdAt: row[0] ? Utilities.formatDate(new Date(row[0]), 'Asia/Taipei', 'yyyy/MM/dd HH:mm') : '',
-      name: String(row[1] || ''),
+      memberName: String(row[1] || ''),
       phone: String(row[2] || ''),
       group: String(row[3] || ''),
-      adults: Number(row[4] || 0),
-      children: Number(row[5] || 0),
-      total: Number(row[6] || 0),
-      bringGuest: String(row[7] || '否'),
-      guestCount: Number(row[8] || 0),
+      total: Number(row[4] || 1),
+      bringGuest: String(row[5] || '否'),
+      guestCount: Number(row[6] || 0),
+      guestNames: String(row[7] || ''),
+      broughtByNote: String(row[8] || ''),
       diet: String(row[9] || '葷食'),
       dietNote: String(row[10] || '')
     }));
@@ -77,21 +68,24 @@ function doPost(e) {
   try {
     const sheet = getOrCreateSheet();
     const payload = JSON.parse(e.postData.contents);
-    const adults = Number(payload.adults || 0);
-    const children = Number(payload.children || 0);
-    const guestCount = Number(payload.guestCount || 0);
-    const total = adults + children;
+    const memberName = payload.memberName || '';
+    const guestCount = payload.bringGuest === '是' ? Number(payload.guestCount || 0) : 0;
+    const guestNames = payload.bringGuest === '是' ? (payload.guestNames || '') : '';
+    const total = 1 + guestCount;
+    const broughtByNote = guestCount > 0
+      ? `由 ${memberName} 帶來${guestNames ? '（新朋友：' + guestNames + '）' : '（共 ' + guestCount + ' 位新朋友）'}`
+      : `${memberName} 本人出席（無攜伴）`;
 
     sheet.appendRow([
       new Date(),
-      payload.name || '',
+      memberName,
       payload.phone || '',
       payload.group || '',
-      adults,
-      children,
       total,
       payload.bringGuest || '否',
       guestCount,
+      guestNames,
+      broughtByNote,
       payload.diet || '葷食',
       payload.dietNote || ''
     ]);
