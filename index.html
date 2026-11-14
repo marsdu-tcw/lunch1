@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>THE WAY｜2026 聖誕季 小組聖誕餐會報名統計</title>
+  <title>THE WAY｜2026 聖誕季 基明、榮雄小組聖誕餐會報名統計</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
@@ -211,12 +211,12 @@
       display: block;
     }
 
-    /* Dynamic text overlays positioned to match the poster blanks */
+    /* Dynamic text overlays positioned to match the poster blanks - supports 1 or multiple groups */
     .poster-overlay-group {
       position: absolute;
       top: 68.7%;
-      left: 19.5%;
-      width: 21.8%;
+      left: 3.5%;
+      width: 37.8%;
       height: 4.5%;
       display: flex;
       align-items: center;
@@ -225,11 +225,16 @@
       color: #ffffff;
       font-family: 'Noto Sans TC', sans-serif;
       font-weight: 700;
-      font-size: clamp(1rem, 2.5vw, 1.38rem);
-      letter-spacing: 0.08em;
+      font-size: clamp(0.95rem, 2.3vw, 1.32rem);
+      letter-spacing: 0.04em;
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
       white-space: nowrap;
-      overflow: hidden;
+      overflow: visible;
+    }
+
+    .poster-overlay-group.multi-group {
+      font-size: clamp(0.82rem, 1.85vw, 1.06rem);
+      letter-spacing: 0.01em;
     }
 
     .poster-overlay-field {
@@ -370,6 +375,46 @@
       font-size: 0.76rem;
       color: #e6c699;
       margin-top: 6px;
+    }
+
+    /* Per-Group Breakdown Bar */
+    .group-breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(246, 201, 103, 0.22);
+    }
+
+    .group-stat-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(246, 201, 103, 0.24);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .group-stat-name {
+      font-weight: 800;
+      color: var(--gold-bright);
+      font-size: 0.96rem;
+    }
+
+    .group-stat-meta {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .group-stat-num {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: #fff;
+      white-space: nowrap;
     }
 
     /* Form styles */
@@ -647,7 +692,7 @@
     <div class="topbar-inner">
       <div class="brand">
         <span class="brand-badge">2026 聖誕季</span>
-        <span class="brand-title">THE WAY｜<span id="navGroupName">恩典</span>小組 聖誕餐會報名統計</span>
+        <span class="brand-title">THE WAY｜<span id="navGroupName">基明、榮雄</span>小組 聖誕餐會報名統計</span>
       </div>
       <div class="topbar-actions">
         <div class="sync-pill" id="syncStatusPill" title="目前資料儲存狀態">
@@ -665,7 +710,7 @@
       <aside class="poster-panel">
         <div class="poster-stage" id="posterStage">
           <img id="posterImg" src="poster.jpg" alt="THE WAY 2026 聖誕季 小組聖誕餐會海報" crossorigin="anonymous" />
-          <div class="poster-overlay-group" id="posterGroupText">恩典</div>
+          <div class="poster-overlay-group multi-group" id="posterGroupText">基明、榮雄</div>
           <div class="poster-overlay-field poster-overlay-date" id="posterDateText">2026/12/19 (六)</div>
           <div class="poster-overlay-field poster-overlay-time" id="posterTimeText">18:30 入席（19:00 開始）</div>
           <div class="poster-overlay-field poster-overlay-location" id="posterLocationText">CHANGE LIFE CHURCH 交誼廳</div>
@@ -675,7 +720,7 @@
           <button class="btn btn-primary" type="button" onclick="downloadPosterPng()">📥 下載海報圖檔</button>
           <button class="btn" type="button" onclick="copyShareInvite()">💬 複製 LINE 邀請文</button>
         </div>
-        <p class="poster-hint">點選右上角「⚙️ 設定」即可即時修改海報上的小組名稱、日期、時間與地點</p>
+        <p class="poster-hint">點選右上角「⚙️ 設定」可隨時調整海報上的小組名稱（支援多小組如「基明、榮雄」）、日期、時間與地點</p>
       </aside>
 
       <!-- Right Column: Live Headcount + Registration Form + Roster -->
@@ -685,7 +730,7 @@
         <div class="card">
           <div class="card-header">
             <div>
-              <h2 class="card-title">📊 即時報名人數統計</h2>
+              <h2 class="card-title">📊 即時報名人數統計（<span id="statBoardGroupName">基明、榮雄</span>小組）</h2>
               <p class="card-subtitle">耶穌說：「我就是道路、真理、生命」— 誠摯邀請您與親友一同共度溫馨聖誕餐會</p>
             </div>
             <button class="btn" type="button" onclick="refreshFromCloud()">🔄 重新整理統計</button>
@@ -707,7 +752,7 @@
                 <span class="stat-value" id="statMembers">0</span>
                 <span class="stat-unit">位</span>
               </div>
-              <div class="stat-detail">小組弟兄姊妹本人出席</div>
+              <div class="stat-detail" id="statMemberGroupLabel">基明、榮雄小組</div>
             </div>
 
             <div class="stat-box">
@@ -755,7 +800,7 @@
 
               <div class="form-group">
                 <label for="inputGroup">所屬小組 <span class="req">*</span></label>
-                <input type="text" id="inputGroup" required placeholder="例如：恩典小組" />
+                <input type="text" id="inputGroup" required placeholder="請輸入所屬小組（如：基明小組、榮雄小組）" oninput="updateFormPreview()" />
               </div>
 
               <div class="form-group">
@@ -836,10 +881,13 @@
           <div class="card-header">
             <div>
               <h2 class="card-title">📋 已報名名單一覽</h2>
-              <p class="card-subtitle">匯出 CSV (Excel) 時，每位新朋友皆會清楚備註是哪一位出席的弟兄或姊妹帶來的</p>
+              <p class="card-subtitle">匯出 CSV (Excel) 時，每位新朋友皆會清楚備註所屬小組及是由哪一位出席的弟兄或姊妹帶來的</p>
             </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <input type="text" id="searchInput" placeholder="🔍 搜尋弟兄姊妹、新朋友或電話..." oninput="renderTable()" style="width: 225px; padding: 7px 12px; font-size: 0.85rem;" />
+            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+              <select id="groupFilterSelect" onchange="renderTable()" style="width: auto; padding: 7px 12px; font-size: 0.85rem;">
+                <option value="">全部小組</option>
+              </select>
+              <input type="text" id="searchInput" placeholder="🔍 搜尋弟兄姊妹、新朋友或電話..." oninput="renderTable()" style="width: 210px; padding: 7px 12px; font-size: 0.85rem;" />
               <button class="btn btn-primary" type="button" onclick="exportCsv()">📊 匯出 CSV (含帶人備註)</button>
             </div>
           </div>
@@ -851,7 +899,7 @@
                   <th>報名時間</th>
                   <th>出席的弟兄或姊妹姓名</th>
                   <th>聯絡電話</th>
-                  <th>小組</th>
+                  <th>所屬小組</th>
                   <th>出席總人數</th>
                   <th>帶來的新朋友與備註（由誰帶來）</th>
                   <th>飲食與備註</th>
@@ -876,9 +924,10 @@
       </div>
 
       <div class="form-grid">
-        <div class="form-group">
-          <label for="cfgGroup">海報小組名稱（不含「小組」二字）</label>
-          <input type="text" id="cfgGroup" placeholder="例如：恩典、喜樂、社青" />
+        <div class="form-group full">
+          <label for="cfgGroup">海報小組名稱（不含「小組」二字；多個小組請用頓號「、」分隔）</label>
+          <input type="text" id="cfgGroup" placeholder="例如：基明、榮雄" />
+          <span style="font-size:0.78rem; color:var(--text-muted);">輸入「基明、榮雄」時，海報會顯示「基明、榮雄 小組 聖誕餐會」，且報名表與統計看板會自動列出「基明小組」與「榮雄小組」。</span>
         </div>
         <div class="form-group">
           <label for="cfgDate">活動日期</label>
@@ -888,7 +937,7 @@
           <label for="cfgTime">活動時間</label>
           <input type="text" id="cfgTime" placeholder="例如：18:30 入席（19:00 開始）" />
         </div>
-        <div class="form-group">
+        <div class="form-group full">
           <label for="cfgLocation">活動地點</label>
           <input type="text" id="cfgLocation" placeholder="例如：CHANGE LIFE CHURCH 交誼廳" />
         </div>
@@ -901,7 +950,7 @@
           </p>
           <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
             <button class="btn" type="button" onclick="copyAppsScriptCode()">📋 一鍵複製 Google Apps Script 程式碼</button>
-            <button class="btn" type="button" onclick="loadSampleData()">🧪 載入 3 筆範例報名資料（測試統計與 CSV 匯出）</button>
+            <button class="btn" type="button" onclick="loadSampleData()">🧪 載入基明、榮雄小組範例資料（測試統計與 CSV 匯出）</button>
           </div>
         </div>
       </div>
@@ -918,17 +967,17 @@
 
   <script>
     // ============================================================================
-    // 預設活動與海報設定（您可直接在此修改預設值，或在網頁右上角「⚙️ 設定」中調整）
+    // 預設活動與海報設定（預設列出：基明、榮雄 兩個小組）
     // ============================================================================
     const DEFAULT_EVENT_CONFIG = {
-      groupPrefix: '恩典',
+      groupPrefix: '基明、榮雄',
       date: '2026/12/19 (六)',
       time: '18:30 入席（19:00 開始）',
       location: 'CHANGE LIFE CHURCH 交誼廳',
       googleScriptUrl: '' // 貼上部署好的 Google Apps Script 網址即可全自動同步
     };
 
-    const STORAGE_KEY_CFG = 'the_way_2026_config_v1';
+    const STORAGE_KEY_CFG = 'the_way_2026_config_v3';
     const STORAGE_KEY_ROWS = 'the_way_2026_registrations_v2';
 
     let eventConfig = loadConfig();
@@ -937,7 +986,12 @@
     function loadConfig() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY_CFG);
-        return raw ? { ...DEFAULT_EVENT_CONFIG, ...JSON.parse(raw) } : { ...DEFAULT_EVENT_CONFIG };
+        if (!raw) return { ...DEFAULT_EVENT_CONFIG };
+        const parsed = JSON.parse(raw);
+        if (!parsed.groupPrefix || parsed.groupPrefix === '恩典' || parsed.groupPrefix === '榮雄') {
+          parsed.groupPrefix = '基明、榮雄';
+        }
+        return { ...DEFAULT_EVENT_CONFIG, ...parsed };
       } catch (e) {
         return { ...DEFAULT_EVENT_CONFIG };
       }
@@ -956,17 +1010,39 @@
       localStorage.setItem(STORAGE_KEY_ROWS, JSON.stringify(registrations));
     }
 
+    // Parse groupPrefix (e.g. "基明、榮雄") into full group names ["基明小組", "榮雄小組"]
+    function getGroupList() {
+      const raw = (eventConfig.groupPrefix || '基明、榮雄').trim();
+      const parts = raw.split(/[、,，／/;\s]+/).map(s => s.trim()).filter(Boolean);
+      if (parts.length === 0) return ['基明小組', '榮雄小組'];
+      return parts.map(p => p.endsWith('小組') ? p : `${p}小組`);
+    }
+
     function applyConfigToUI() {
-      const grp = (eventConfig.groupPrefix || '').trim();
-      document.getElementById('navGroupName').textContent = grp || '各';
-      document.getElementById('posterGroupText').textContent = grp;
+      const grp = (eventConfig.groupPrefix || '基明、榮雄').trim().replace(/小組$/, '');
+      document.getElementById('navGroupName').textContent = grp;
+      document.title = `THE WAY｜2026 聖誕季 ${grp}小組 聖誕餐會報名統計`;
+      const boardGrp = document.getElementById('statBoardGroupName');
+      if (boardGrp) boardGrp.textContent = grp;
+      const memberGrpLabel = document.getElementById('statMemberGroupLabel');
+      if (memberGrpLabel) memberGrpLabel.textContent = `${grp}小組`;
+
+      const posterGroupEl = document.getElementById('posterGroupText');
+      posterGroupEl.textContent = grp;
+      posterGroupEl.classList.toggle('multi-group', grp.length > 2);
+
       document.getElementById('posterDateText').textContent = eventConfig.date || '';
       document.getElementById('posterTimeText').textContent = eventConfig.time || '';
       document.getElementById('posterLocationText').textContent = eventConfig.location || '';
 
-      const groupInput = document.getElementById('inputGroup');
-      if (!groupInput.value) {
-        groupInput.value = grp ? `${grp}小組` : '';
+      // Populate group filter dropdown in roster
+      const groups = getGroupList();
+      const filterSelect = document.getElementById('groupFilterSelect');
+      const prevFilter = filterSelect.value;
+      filterSelect.innerHTML = `<option value="">全部小組（${groups.join(' / ')}）</option>` +
+        groups.map(gName => `<option value="${escapeHtml(gName)}">${escapeHtml(gName)}</option>`).join('');
+      if (groups.includes(prevFilter)) {
+        filterSelect.value = prevFilter;
       }
 
       const dot = document.getElementById('syncDot');
@@ -978,6 +1054,10 @@
         dot.classList.remove('connected');
         txt.textContent = '本機預覽模式（點選設定可串接 Google 試算表）';
       }
+    }
+
+    function getSelectedGroup() {
+      return (document.getElementById('inputGroup')?.value || '').trim();
     }
 
     function adjustCount(inputId, delta) {
@@ -1002,16 +1082,18 @@
 
     function updateFormPreview() {
       const memberName = (document.getElementById('inputMemberName').value || '').trim();
+      const groupName = getSelectedGroup();
       const bringGuest = document.querySelector('input[name="bringGuest"]:checked')?.value === '是';
       const guestCount = bringGuest ? Math.max(1, Number(document.getElementById('inputGuestCount').value || 1)) : 0;
       const guestNames = bringGuest ? (document.getElementById('inputGuestNames').value || '').trim() : '';
       const total = 1 + guestCount;
 
+      const prefix = groupName ? `[${groupName}] ` : '';
       document.getElementById('previewTotalCount').textContent = total;
       if (!bringGuest) {
-        document.getElementById('previewDetailText').textContent = `${memberName || '弟兄姊妹本人'} 1 位`;
+        document.getElementById('previewDetailText').textContent = `${prefix}${memberName || '弟兄姊妹本人'} 1 位`;
       } else {
-        document.getElementById('previewDetailText').textContent = `${memberName || '弟兄姊妹'} 1 位 ＋ 帶來新朋友 ${guestCount} 位`;
+        document.getElementById('previewDetailText').textContent = `${prefix}${memberName || '弟兄姊妹'} 1 位 ＋ 帶來新朋友 ${guestCount} 位`;
       }
 
       const notePreview = document.getElementById('guestNotePreview');
@@ -1038,7 +1120,7 @@
       const btn = document.getElementById('submitBtn');
       const memberName = document.getElementById('inputMemberName').value.trim();
       const phone = document.getElementById('inputPhone').value.trim();
-      const group = document.getElementById('inputGroup').value.trim();
+      const group = getSelectedGroup();
       const bringGuest = document.querySelector('input[name="bringGuest"]:checked')?.value || '否';
       const guestCount = bringGuest === '是' ? Math.max(1, Number(document.getElementById('inputGuestCount').value || 1)) : 0;
       const guestNames = bringGuest === '是' ? document.getElementById('inputGuestNames').value.trim() : '';
@@ -1073,17 +1155,17 @@
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify(record)
           });
-          showToast(`🎉 感謝 ${memberName}！報名已同步至 Google 試算表`);
+          showToast(`🎉 感謝 ${memberName}（${group}）！報名已同步至 Google 試算表`);
           setTimeout(refreshFromCloud, 900);
         } else {
-          showToast(`🎉 感謝 ${memberName}！已完成報名（共 ${record.total} 位出席）`);
+          showToast(`🎉 感謝 ${memberName}（${group}）！已完成報名（共 ${record.total} 位出席）`);
         }
 
         registrations.unshift(record);
         saveLocalRegistrations();
         renderAll();
 
-        // Reset form fields while keeping group name
+        // Reset form fields while keeping selected group
         document.getElementById('inputMemberName').value = '';
         document.getElementById('inputPhone').value = '';
         document.querySelector('input[name="bringGuest"][value="否"]').checked = true;
@@ -1131,6 +1213,13 @@
       let vegCount = 0;
       let noteCount = 0;
 
+      // Track per-group stats (always listing configured groups e.g. 基明小組, 榮雄小組)
+      const groups = getGroupList();
+      const groupStatsMap = {};
+      for (const g of groups) {
+        groupStatsMap[g] = { total: 0, members: 0, guests: 0 };
+      }
+
       for (const r of registrations) {
         const gCount = (r.bringGuest === '是' || Number(r.guestCount || 0) > 0) ? Number(r.guestCount || 0) : 0;
         const rowTotal = 1 + gCount;
@@ -1150,6 +1239,14 @@
         if (r.dietNote && r.dietNote.trim()) {
           noteCount += 1;
         }
+
+        const gKey = (r.group || groups[0]).trim();
+        if (!groupStatsMap[gKey]) {
+          groupStatsMap[gKey] = { total: 0, members: 0, guests: 0 };
+        }
+        groupStatsMap[gKey].total += rowTotal;
+        groupStatsMap[gKey].members += 1;
+        groupStatsMap[gKey].guests += gCount;
       }
 
       document.getElementById('statTotalPeople').textContent = totalPeople;
@@ -1165,8 +1262,10 @@
     function renderTable() {
       const tbody = document.getElementById('rosterBody');
       const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+      const groupFilter = (document.getElementById('groupFilterSelect')?.value || '').trim();
 
       const filtered = registrations.filter(r => {
+        if (groupFilter && (r.group || '').trim() !== groupFilter) return false;
         if (!q) return true;
         const mName = r.memberName || r.name || '';
         return (
@@ -1189,7 +1288,6 @@
         const gCount = (r.bringGuest === '是' || Number(r.guestCount || 0) > 0) ? Number(r.guestCount || 0) : 0;
         const rowTotal = 1 + gCount;
         const dietClass = r.diet === '素食' ? 'tag-veg' : 'tag-meat';
-        const noteText = r.broughtByNote || buildBroughtByNote(mName, r.bringGuest, gCount, r.guestNames);
 
         const guestCell = gCount > 0
           ? `<div><span class="tag tag-guest">🌟 帶來新朋友 ${gCount} 位${r.guestNames ? '：' + escapeHtml(r.guestNames) : ''}</span></div>
@@ -1201,7 +1299,7 @@
             <td style="color:var(--text-muted); font-size:0.8rem;">${escapeHtml(r.createdAt || '')}</td>
             <td style="font-weight:700; color:var(--gold-bright);">${escapeHtml(mName)}</td>
             <td>${escapeHtml(r.phone)}</td>
-            <td>${escapeHtml(r.group)}</td>
+            <td><span class="tag" style="background:rgba(255,255,255,0.08); border:1px solid rgba(246,201,103,0.3); color:#fff;">${escapeHtml(r.group)}</span></td>
             <td><strong>${rowTotal}</strong> 人 <span style="color:var(--text-muted); font-size:0.8rem;">(弟兄姊妹1 + 新朋友${gCount})</span></td>
             <td>${guestCell}</td>
             <td>
@@ -1237,7 +1335,7 @@
         .replace(/"/g, '&quot;');
     }
 
-    // Export CSV with UTF-8 BOM for Excel - explicitly noting which brother/sister brought each guest
+    // Export CSV with UTF-8 BOM for Excel - explicitly noting group and which brother/sister brought each guest
     function exportCsv() {
       if (registrations.length === 0) {
         alert('目前還沒有報名資料可匯出喔！');
@@ -1246,12 +1344,12 @@
 
       const headers = [
         '報名時間',
+        '所屬小組',
         '出席人員姓名',
         '出席身分',
         '出席的弟兄或姊妹姓名',
         '備註（由哪一個出席的弟兄或姊妹帶來）',
         '聯絡電話',
-        '所屬小組',
         '該組報名總人數',
         '帶來新朋友人數',
         '帶來新朋友姓名清單',
@@ -1277,12 +1375,12 @@
 
         csvRows.push([
           r.createdAt || '',
+          r.group || '',
           mName,
           '出席弟兄姊妹',
           mName,
           memberRemark,
           r.phone || '',
-          r.group || '',
           rowTotal,
           gCount,
           rawGuestNames,
@@ -1295,12 +1393,12 @@
           const guestPersonName = parsedNames[i] || `${mName} 帶來的新朋友 #${i + 1}`;
           csvRows.push([
             r.createdAt || '',
+            r.group || '',
             guestPersonName,
             '新朋友 / 慕道友',
             mName,
             `由 ${mName} 帶來`,
             r.phone || '',
-            r.group || '',
             rowTotal,
             gCount,
             rawGuestNames,
@@ -1321,10 +1419,10 @@
       a.download = `${eventConfig.groupPrefix || ''}小組_2026聖誕餐會報名名單.csv`;
       a.click();
       URL.revokeObjectURL(url);
-      showToast('📥 已匯出 CSV 報表（已備註由哪位弟兄姊妹帶來）！');
+      showToast('📥 已匯出 CSV 報表（含所屬小組與帶人備註）！');
     }
 
-    // Download Poster PNG with Overlaid Text rendered on Canvas
+    // Download Poster PNG with Overlaid Text rendered on Canvas (auto-scales for multiple groups like 基明、榮雄)
     function downloadPosterPng() {
       const img = document.getElementById('posterImg');
       const canvas = document.createElement('canvas');
@@ -1342,10 +1440,12 @@
       ctx.shadowOffsetY = 2;
 
       // 1. Group Prefix right-aligned before "小組 聖誕餐會"
-      ctx.font = '700 26px "Noto Sans TC", sans-serif';
+      const grpText = eventConfig.groupPrefix || '';
+      const fontSize = grpText.length > 3 ? 21 : 26;
+      ctx.font = `700 ${fontSize}px "Noto Sans TC", sans-serif`;
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
-      ctx.fillText(eventConfig.groupPrefix || '', w * 0.408, h * 0.713);
+      ctx.fillText(grpText, w * 0.410, h * 0.713);
 
       // 2. Date, Time, Location left-aligned after colons
       ctx.font = '600 19px "Noto Sans TC", sans-serif';
@@ -1355,7 +1455,7 @@
       ctx.fillText(eventConfig.location || '', w * 0.345, h * 0.874);
 
       const link = document.createElement('a');
-      link.download = `THE_WAY_${eventConfig.groupPrefix || ''}小組聖誕餐會海報.png`;
+      link.download = `THE_WAY_${grpText}小組聖誕餐會海報.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
       showToast('🖼️ 已下載填好資訊的聖誕海報圖檔！');
@@ -1370,7 +1470,7 @@
         `⏰ 時間：${eventConfig.time}`,
         `📍 地點：${eventConfig.location}`,
         ``,
-        `誠摯邀請弟兄姊妹與新朋友一起來參加溫馨聖誕餐會！請點擊下方網頁填寫出席姓名與攜伴資訊，方便我們預備餐點：`
+        `誠摯邀請 ${getGroupList().join('、')} 的弟兄姊妹與新朋友一起來參加溫馨聖誕餐會！請點擊下方網頁填寫出席姓名與攜伴資訊：`
       ].join('\n');
 
       navigator.clipboard.writeText(text).then(() => {
@@ -1401,25 +1501,28 @@
         googleScriptUrl: document.getElementById('cfgScriptUrl').value.trim()
       };
       localStorage.setItem(STORAGE_KEY_CFG, JSON.stringify(eventConfig));
-      document.getElementById('inputGroup').value = eventConfig.groupPrefix ? `${eventConfig.groupPrefix}小組` : '';
       applyConfigToUI();
+      updateFormPreview();
+      renderAll();
       closeSettingsModal();
       if (eventConfig.googleScriptUrl) {
         refreshFromCloud();
       } else {
-        showToast('✅ 已更新海報資訊與設定！');
+        showToast('✅ 已更新海報資訊與小組清單！');
       }
     }
 
     function loadSampleData() {
-      const grp = eventConfig.groupPrefix ? `${eventConfig.groupPrefix}小組` : '恩典小組';
+      const groups = getGroupList();
+      const g1 = groups[0] || '基明小組';
+      const g2 = groups[1] || groups[0] || '榮雄小組';
       registrations = [
         {
           id: 'sample-1',
           createdAt: '2026/11/14 21:30',
           memberName: '林恩典',
           phone: '0912-345-678',
-          group: grp,
+          group: g1,
           total: 2,
           bringGuest: '是',
           guestCount: 1,
@@ -1433,7 +1536,7 @@
           createdAt: '2026/11/14 21:32',
           memberName: '張喜樂',
           phone: '0922-888-168',
-          group: grp,
+          group: g2,
           total: 1,
           bringGuest: '否',
           guestCount: 0,
@@ -1447,7 +1550,7 @@
           createdAt: '2026/11/14 21:35',
           memberName: '王平安',
           phone: '0933-777-999',
-          group: grp,
+          group: g2,
           total: 3,
           bringGuest: '是',
           guestCount: 2,
@@ -1460,7 +1563,7 @@
       saveLocalRegistrations();
       renderAll();
       closeSettingsModal();
-      showToast('🧪 已載入 3 筆範例資料（共 6 人出席），可點選「匯出 CSV」查看帶人備註效果！');
+      showToast(`🧪 已載入 ${g1}、${g2} 範例資料（共 6 人出席）！`);
     }
 
     function copyAppsScriptCode() {
