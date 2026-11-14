@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE WAY｜2026 聖誕季 小組聖誕餐會報名統計</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #1a0707;
+      --bg-card: rgba(38, 12, 12, 0.86);
+      --bg-card-inner: rgba(24, 7, 7, 0.72);
+      --gold: #f6c967;
+      --gold-bright: #ffe49e;
+      --gold-dim: rgba(246, 201, 103, 0.28);
+      --crimson: #8b1e1e;
+      --crimson-bright: #b92b27;
+      -- pine: #1f4d36;
+      --text-main: #fff9f2;
+      --text-muted: #d9c3b8;
+      --border-soft: rgba(246, 201, 103, 0.24);
+      --shadow-heavy: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(246, 189, 82, 0.25) 0%, rgba(120, 28, 22, 0.35) 38%, rgba(20, 5, 5, 0.98) 80%),
+        linear-gradient(180deg, #2a0d08 0%, #160505 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      line-height: 1.6;
+      padding-bottom: 60px;
+    }
+
+    /* Top bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(14px);
+      background: rgba(22, 5, 5, 0.82);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 12px 20px;
+    }
+
+    .topbar-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      background: linear-gradient(135deg, var(--gold), #d4942a);
+      color: #260a06;
+      font-weight: 900;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      color: var(--gold-bright);
+    }
+
+    .topbar-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .sync-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+
+    .sync-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f59e0b;
+      box-shadow: 0 0 8px #f59e0b;
+    }
+
+    .sync-dot.connected {
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.88rem;
+      border-radius: 10px;
+      padding: 8px 14px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-main);
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: rgba(246, 201, 103, 0.16);
+      border-color: var(--gold);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #d99b32 0%, #b56d14 100%);
+      color: #fff;
+      border-color: #f6c967;
+      box-shadow: 0 6px 20px rgba(217, 155, 50, 0.35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #e5ab43 0%, #c87b1a 100%);
+      box-shadow: 0 8px 25px rgba(246, 201, 103, 0.45);
+    }
+
+    /* Main container */
+    .container {
+      max-width: 1160px;
+      margin: 28px auto 0;
+      padding: 0 18px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 920px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left column: Poster card */
+    .poster-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: var(--shadow-heavy);
+      position: sticky;
+      top: 76px;
+    }
+
+    @media (max-width: 920px) {
+      .poster-panel {
+        position: static;
+        max-width: 440px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    .poster-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 576 / 1024;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: #2b0908;
+      user-select: none;
+    }
+
+    .poster-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Dynamic text overlays positioned to match the poster blanks */
+    .poster-overlay-group {
+      position: absolute;
+      top: 68.7%;
+      left: 19.5%;
+      width: 21.8%;
+      height: 4.5%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 4px;
+      color: #ffffff;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1rem, 2.5vw, 1.38rem);
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .poster-overlay-field {
+      position: absolute;
+      left: 34.5%;
+      right: 10%;
+      color: #ffffff;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-weight: 600;
+      font-size: clamp(0.84rem, 1.9vw, 1.02rem);
+      letter-spacing: 0.06em;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .poster-overlay-date {
+      top: 76.8%;
+      height: 2.8%;
+    }
+
+    .poster-overlay-time {
+      top: 81.4%;
+      height: 2.8%;
+    }
+
+    .poster-overlay-location {
+      top: 86.0%;
+      height: 2.8%;
+    }
+
+    .poster-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .poster-hint {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* Right column: Stats + Form + List */
+    .content-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-soft);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(246, 201, 103, 0.16);
+      flex-wrap: wrap;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 680px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .stat-box {
+      background: var(--bg-card-inner);
+      border: 1px solid rgba(246, 201, 103, 0.2);
+      border-radius: 14px;
+      padding: 16px 14px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box.highlight {
+      background: linear-gradient(145deg, rgba(168, 42, 36, 0.45), rgba(50, 12, 12, 0.85));
+      border-color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold-bright);
+      line-height: 1.1;
+    }
+
+    .stat-unit {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-left: 3px;
+    }
+
+    .stat-detail {
+      font-size: 0.76rem;
+      color: #e6c699;
+      margin-top: 6px;
+    }
+
+    /* Form styles */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fbe5c8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .req {
+      color: #ff6b6b;
+      font-size: 0.85rem;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(246, 201, 103, 0.28);
+      background: rgba(16, 4, 4, 0.75);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(246, 201, 103, 0.2);
+    }
+
+    .stepper-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .stepper-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--gold-bright);
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .stepper-btn:hover {
+      background: rgba(246, 201, 103, 0.22);
+      border-color: var(--gold);
+    }
+
+    .radio-pills {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .radio-pill {
+      flex: 1;
+      min-width: 110px;
+      position: relative;
+    }
+
+    .radio-pill input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio-pill span {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(246, 201, 103, 0.25);
+      background: rgba(16, 4, 4, 0.65);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .radio-pill input:checked + span {
+      background: linear-gradient(135deg, rgba(217, 155, 50, 0.32), rgba(168, 42, 36, 0.45));
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      box-shadow: 0 0 14px rgba(246, 201, 103, 0.22);
+    }
+
+    .guest-box {
+      background: rgba(246, 201, 103, 0.08);
+      border: 1px dashed rgba(246, 201, 103, 0.38);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .guest-box.active {
+      display: block;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 14px 20px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      border-radius: 12px;
+      margin-top: 8px;
+    }
+
+    /* Table / List */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(246, 201, 103, 0.18);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      min-width: 620px;
+    }
+
+    th, td {
+      padding: 11px 12px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    th {
+      background: rgba(16, 4, 4, 0.85);
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .tag-meat {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+
+    .tag-veg {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .tag-guest {
+      background: rgba(246, 201, 103, 0.22);
+      color: var(--gold-bright);
+      border: 1px solid rgba(246, 201, 103, 0.4);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #240909;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      max-width: 640px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 200;
+      background: linear-gradient(135deg, #1f4d36, #143323);
+      color: #fff;
+      border: 1px solid #6ee7b7;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+      transform: translateY(120%);
+      opacity: 0;
+      transition: all 0.28s ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">2026 聖誕季</span>
+        <span class="brand-title">THE WAY｜<span id="navGroupName">恩典</span>小組 聖誕餐會報名統計</span>
+      </div>
+      <div class="topbar-actions">
+        <div class="sync-pill" id="syncStatusPill" title="目前資料儲存狀態">
+          <span class="sync-dot" id="syncDot"></span>
+          <span id="syncText">本機預覽模式（可串接 Google 試算表）</span>
+        </div>
+        <button class="btn" type="button" onclick="openSettingsModal()">⚙️ 海報資訊 &amp; Google 試算表設定</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero-grid">
+      <!-- Left Column: Live Poster with Dynamic Text Overlay -->
+      <aside class="poster-panel">
+        <div class="poster-stage" id="posterStage">
+          <img id="posterImg" src="poster.jpg" alt="THE WAY 2026 聖誕季 小組聖誕餐會海報" crossorigin="anonymous" />
+          <div class="poster-overlay-group" id="posterGroupText">恩典</div>
+          <div class="poster-overlay-field poster-overlay-date" id="posterDateText">2026/12/19 (六)</div>
+          <div class="poster-overlay-field poster-overlay-time" id="posterTimeText">18:30 入席（19:00 開始）</div>
+          <div class="poster-overlay-field poster-overlay-location" id="posterLocationText">生命改變教會 2F 交誼廳</div>
+        </div>
+
+        <div class="poster-actions">
+          <button class="btn btn-primary" type="button" onclick="downloadPosterPng()">📥 下載海報圖檔</button>
+          <button class="btn" type="button" onclick="copyShareInvite()">💬 複製 LINE 邀請文</button>
+        </div>
+        <p class="poster-hint">點選右上角「⚙️ 設定」即可即時修改海報上的小組名稱、日期、時間與地點</p>
+      </aside>
+
+      <!-- Right Column: Live Headcount + Registration Form + Roster -->
+      <section class="content-col">
+
+        <!-- 1. Live Headcount Dashboard -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">📊 即時報名人數統計</h2>
+              <p class="card-subtitle">耶穌說：「我就是道路、真理、生命」— 誠摯邀請您與親友一同共度溫馨聖誕餐會</p>
+            </div>
+            <button class="btn" type="button" onclick="refreshFromCloud()">🔄 重新整理統計</button>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box highlight">
+              <div class="stat-label">目前總出席人數</div>
+              <div>
+                <span class="stat-value" id="statTotalPeople">0</span>
+                <span class="stat-unit">人</span>
+              </div>
+              <div class="stat-detail" id="statTotalGroups">共 0 組報名</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">大人 / 孩童人數</div>
+              <div>
+                <span class="stat-value" id="statAdults">0</span>
+                <span class="stat-unit">大</span>
+                <span class="stat-value" id="statChildren" style="margin-left:6px;">0</span>
+                <span class="stat-unit">小</span>
+              </div>
+              <div class="stat-detail">方便統計座位與兒童餐點</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">新朋友 / 慕道友</div>
+              <div>
+                <span class="stat-value" id="statGuests">0</span>
+                <span class="stat-unit">位</span>
+              </div>
+              <div class="stat-detail" id="statGuestFamilies">0 組攜伴參加</div>
+            </div>
+
+            <div class="stat-box">
+              <div class="stat-label">飲食需求統計</div>
+              <div>
+                <span class="stat-value" id="statMeat">0</span>
+                <span class="stat-unit">葷</span>
+                <span class="stat-value" id="statVeg" style="margin-left:6px;">0</span>
+                <span class="stat-unit">素</span>
+              </div>
+              <div class="stat-detail" id="statDietNotes">0 筆特殊飲食備註</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. RSVP Form -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">🎄 聖誕餐會線上報名</h2>
+              <p class="card-subtitle">填寫後將自動計入總人數並同步至小組統計表</p>
+            </div>
+          </div>
+
+          <form id="rsvpForm" onsubmit="submitRsvp(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="inputName">姓名 / 稱呼 <span class="req">*</span></label>
+                <input type="text" id="inputName" required placeholder="例如：王大明" />
+              </div>
+
+              <div class="form-group">
+                <label for="inputPhone">聯絡電話 <span class="req">*</span></label>
+                <input type="tel" id="inputPhone" required placeholder="例如：0912-345-678" />
+              </div>
+
+              <div class="form-group">
+                <label for="inputGroup">所屬小組 <span class="req">*</span></label>
+                <input type="text" id="inputGroup" required placeholder="例如：恩典小組" />
+              </div>
+
+              <div class="form-group">
+                <label>本筆報名總人數預覽</label>
+                <div style="padding: 10px 14px; border-radius: 10px; background: rgba(246, 201, 103, 0.12); border: 1px solid rgba(246, 201, 103, 0.3); font-weight: 700; color: var(--gold-bright);">
+                  共 <span id="previewTotalCount">1</span> 位出席（<span id="previewDetailText">1 大 0 小</span>）
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputAdults">出席大人人數 <span class="req">*</span></label>
+                <div class="stepper-row">
+                  <button class="stepper-btn" type="button" onclick="adjustCount('inputAdults', -1)">−</button>
+                  <input type="number" id="inputAdults" min="1" max="30" value="1" required oninput="updateFormPreview()" />
+                  <button class="stepper-btn" type="button" onclick="adjustCount('inputAdults', 1)">＋</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="inputChildren">出席孩童人數（12歲以下）</label>
+                <div class="stepper-row">
+                  <button class="stepper-btn" type="button" onclick="adjustCount('inputChildren', -1)">−</button>
+                  <input type="number" id="inputChildren" min="0" max="20" value="0" oninput="updateFormPreview()" />
+                  <button class="stepper-btn" type="button" onclick="adjustCount('inputChildren', 1)">＋</button>
+                </div>
+              </div>
+
+              <div class="form-group full">
+                <label>是否攜伴（新朋友 / 慕道友）？</label>
+                <div class="radio-pills">
+                  <label class="radio-pill">
+                    <input type="radio" name="bringGuest" value="否" checked onchange="toggleGuestBox()" />
+                    <span>🙋 僅組員/家人出席</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="bringGuest" value="是" onchange="toggleGuestBox()" />
+                    <span>🎁 是，我有邀請新朋友/慕道友！</span>
+                  </label>
+                </div>
+
+                <div class="guest-box" id="guestBox">
+                  <div class="form-grid">
+                    <div class="form-group">
+                      <label for="inputGuestCount">上述出席人數中，包含幾位新朋友？</label>
+                      <div class="stepper-row">
+                        <button class="stepper-btn" type="button" onclick="adjustCount('inputGuestCount', -1)">−</button>
+                        <input type="number" id="inputGuestCount" min="1" max="20" value="1" />
+                        <button class="stepper-btn" type="button" onclick="adjustCount('inputGuestCount', 1)">＋</button>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="inputGuestNames">新朋友姓名或稱呼（選填，方便預備迎新小禮）</label>
+                      <input type="text" id="inputGuestNames" placeholder="例如：小華、阿傑" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group full">
+                <label>飲食需求 <span class="req">*</span></label>
+                <div class="radio-pills">
+                  <label class="radio-pill">
+                    <input type="radio" name="diet" value="葷食" checked />
+                    <span>🍖 全部葷食</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="diet" value="素食" />
+                    <span>🥗 全部素食（蛋奶/全素請備註）</span>
+                  </label>
+                  <label class="radio-pill">
+                    <input type="radio" name="diet" value="葷素皆有" />
+                    <span>🍱 同行者葷素皆有（請於備註寫明素食人數）</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group full">
+                <label for="inputDietNote">飲食過敏、素食人數或兒童座椅等備註（選填）</label>
+                <input type="text" id="inputDietNote" placeholder="例如：1位蛋奶素、不吃牛肉、需1張兒童餐椅..." />
+              </div>
+
+              <div class="form-group full">
+                <button class="btn btn-primary submit-btn" type="submit" id="submitBtn">
+                  ✨ 送出報名並計入統計
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- 3. Registration Roster & Export -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title">📋 已報名名單一覽</h2>
+              <p class="card-subtitle">可隨時搜尋確認或匯出成 Excel (CSV) 檔案</p>
+            </div>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <input type="text" id="searchInput" placeholder="🔍 搜尋姓名、電話或小組..." oninput="renderTable()" style="width: 210px; padding: 7px 12px; font-size: 0.85rem;" />
+              <button class="btn" type="button" onclick="exportCsv()">📊 匯出 CSV (Excel)</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>報名時間</th>
+                  <th>姓名</th>
+                  <th>電話</th>
+                  <th>小組</th>
+                  <th>出席人數</th>
+                  <th>新朋友</th>
+                  <th>飲食與備註</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="rosterBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+    </div>
+  </main>
+
+  <!-- Settings & Google Sheets Integration Modal -->
+  <div class="modal-backdrop" id="settingsModal">
+    <div class="modal">
+      <div class="card-header">
+        <h3 class="card-title">⚙️ 海報文字與 Google 試算表設定</h3>
+        <button class="btn" type="button" onclick="closeSettingsModal()">✕ 關閉</button>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="cfgGroup">海報小組名稱（不含「小組」二字）</label>
+          <input type="text" id="cfgGroup" placeholder="例如：恩典、喜樂、社青" />
+        </div>
+        <div class="form-group">
+          <label for="cfgDate">活動日期</label>
+          <input type="text" id="cfgDate" placeholder="例如：2026/12/19 (六)" />
+        </div>
+        <div class="form-group">
+          <label for="cfgTime">活動時間</label>
+          <input type="text" id="cfgTime" placeholder="例如：18:30 入席（19:00 開始）" />
+        </div>
+        <div class="form-group">
+          <label for="cfgLocation">活動地點</label>
+          <input type="text" id="cfgLocation" placeholder="例如：生命改變教會 2F 交誼廳" />
+        </div>
+
+        <div class="form-group full" style="margin-top:8px; padding-top:12px; border-top:1px solid rgba(246,201,103,0.2);">
+          <label for="cfgScriptUrl">Google Apps Script 網頁應用程式網址 (Web App URL)</label>
+          <input type="url" id="cfgScriptUrl" placeholder="https://script.google.com/macros/s/....../exec" />
+          <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">
+            貼上後，所有報名資料與人數統計都會即時寫入並讀取您的 Google 試算表。若留空則使用瀏覽器本機儲存模式。
+          </p>
+          <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+            <button class="btn" type="button" onclick="copyAppsScriptCode()">📋 一鍵複製 Google Apps Script 程式碼</button>
+            <button class="btn" type="button" onclick="loadSampleData()">🧪 載入 3 筆範例報名資料（測試統計效果）</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:20px;">
+        <button class="btn" type="button" onclick="closeSettingsModal()">取消</button>
+        <button class="btn btn-primary" type="button" onclick="saveSettings()">💾 儲存並更新海報</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toastBox">已成功送出報名！</div>
+
+  <script>
+    // ============================================================================
+    // 預設活動與海報設定（您可直接在此修改預設值，或在網頁右上角「⚙️ 設定」中調整）
+    // ============================================================================
+    const DEFAULT_EVENT_CONFIG = {
+      groupPrefix: '恩典',
+      date: '2026/12/19 (六)',
+      time: '18:30 入席（19:00 開始）',
+      location: 'CHANGE LIFE CHURCH 交誼廳',
+      googleScriptUrl: '' // 貼上部署好的 Google Apps Script 網址即可全自動同步
+    };
+
+    const STORAGE_KEY_CFG = 'the_way_2026_config_v1';
+    const STORAGE_KEY_ROWS = 'the_way_2026_registrations_v1';
+
+    let eventConfig = loadConfig();
+    let registrations = loadLocalRegistrations();
+
+    function loadConfig() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_CFG);
+        return raw ? { ...DEFAULT_EVENT_CONFIG, ...JSON.parse(raw) } : { ...DEFAULT_EVENT_CONFIG };
+      } catch (e) {
+        return { ...DEFAULT_EVENT_CONFIG };
+      }
+    }
+
+    function loadLocalRegistrations() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY_ROWS);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveLocalRegistrations() {
+      localStorage.setItem(STORAGE_KEY_ROWS, JSON.stringify(registrations));
+    }
+
+    function applyConfigToUI() {
+      const grp = (eventConfig.groupPrefix || '').trim();
+      document.getElementById('navGroupName').textContent = grp || '各';
+      document.getElementById('posterGroupText').textContent = grp;
+      document.getElementById('posterDateText').textContent = eventConfig.date || '';
+      document.getElementById('posterTimeText').textContent = eventConfig.time || '';
+      document.getElementById('posterLocationText').textContent = eventConfig.location || '';
+
+      const groupInput = document.getElementById('inputGroup');
+      if (!groupInput.value) {
+        groupInput.value = grp ? `${grp}小組` : '';
+      }
+
+      const dot = document.getElementById('syncDot');
+      const txt = document.getElementById('syncText');
+      if (eventConfig.googleScriptUrl && eventConfig.googleScriptUrl.startsWith('https://script.google.com/')) {
+        dot.classList.add('connected');
+        txt.textContent = '已連動 Google 試算表雲端統計';
+      } else {
+        dot.classList.remove('connected');
+        txt.textContent = '本機預覽模式（點選設定可串接 Google 試算表）';
+      }
+    }
+
+    function adjustCount(inputId, delta) {
+      const el = document.getElementById(inputId);
+      const min = Number(el.min || 0);
+      const max = Number(el.max || 99);
+      const next = Math.max(min, Math.min(max, Number(el.value || 0) + delta));
+      el.value = next;
+      updateFormPreview();
+    }
+
+    function updateFormPreview() {
+      const adults = Math.max(0, Number(document.getElementById('inputAdults').value || 0));
+      const children = Math.max(0, Number(document.getElementById('inputChildren').value || 0));
+      document.getElementById('previewTotalCount').textContent = adults + children;
+      document.getElementById('previewDetailText').textContent = `${adults} 大 ${children} 小`;
+    }
+
+    function toggleGuestBox() {
+      const bring = document.querySelector('input[name="bringGuest"]:checked')?.value === '是';
+      const box = document.getElementById('guestBox');
+      box.classList.toggle('active', bring);
+    }
+
+    function formatNow() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    async function submitRsvp(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const name = document.getElementById('inputName').value.trim();
+      const phone = document.getElementById('inputPhone').value.trim();
+      const group = document.getElementById('inputGroup').value.trim();
+      const adults = Math.max(1, Number(document.getElementById('inputAdults').value || 1));
+      const children = Math.max(0, Number(document.getElementById('inputChildren').value || 0));
+      const bringGuest = document.querySelector('input[name="bringGuest"]:checked')?.value || '否';
+      const guestCount = bringGuest === '是' ? Math.max(1, Number(document.getElementById('inputGuestCount').value || 1)) : 0;
+      const guestNames = bringGuest === '是' ? document.getElementById('inputGuestNames').value.trim() : '';
+      const diet = document.querySelector('input[name="diet"]:checked')?.value || '葷食';
+      let dietNote = document.getElementById('inputDietNote').value.trim();
+      if (guestNames) {
+        dietNote = dietNote ? `新朋友：${guestNames}｜${dietNote}` : `新朋友：${guestNames}`;
+      }
+
+      const record = {
+        id: 'local-' + Date.now(),
+        createdAt: formatNow(),
+        name,
+        phone,
+        group,
+        adults,
+        children,
+        total: adults + children,
+        bringGuest,
+        guestCount,
+        diet,
+        dietNote
+      };
+
+      btn.disabled = true;
+      btn.textContent = '⏳ 正在送出報名資料...';
+
+      try {
+        if (eventConfig.googleScriptUrl && eventConfig.googleScriptUrl.startsWith('https://script.google.com/')) {
+          await fetch(eventConfig.googleScriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(record)
+          });
+          showToast(`🎉 感謝 ${name}！報名已同步至 Google 試算表`);
+          setTimeout(refreshFromCloud, 900);
+        } else {
+          showToast(`🎉 感謝 ${name}！已完成報名（共 ${record.total} 位）`);
+        }
+
+        registrations.unshift(record);
+        saveLocalRegistrations();
+        renderAll();
+
+        // Reset form fields while keeping group name
+        document.getElementById('inputName').value = '';
+        document.getElementById('inputPhone').value = '';
+        document.getElementById('inputAdults').value = 1;
+        document.getElementById('inputChildren').value = 0;
+        document.querySelector('input[name="bringGuest"][value="否"]').checked = true;
+        document.getElementById('inputGuestCount').value = 1;
+        document.getElementById('inputGuestNames').value = '';
+        document.querySelector('input[name="diet"][value="葷食"]').checked = true;
+        document.getElementById('inputDietNote').value = '';
+        toggleGuestBox();
+        updateFormPreview();
+      } catch (err) {
+        alert('送出時發生問題，已先為您儲存在本機清單：' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✨ 送出報名並計入統計';
+      }
+    }
+
+    async function refreshFromCloud() {
+      if (!eventConfig.googleScriptUrl || !eventConfig.googleScriptUrl.startsWith('https://script.google.com/')) {
+        renderAll();
+        showToast('📊 已更新本機統計數據');
+        return;
+      }
+      try {
+        const res = await fetch(eventConfig.googleScriptUrl);
+        const data = await res.json();
+        if (data && data.ok && Array.isArray(data.registrations)) {
+          registrations = data.registrations;
+          saveLocalRegistrations();
+          renderAll();
+          showToast('☁️ 已從 Google 試算表同步最新名單！');
+        }
+      } catch (err) {
+        console.warn('Cloud sync warning:', err);
+        renderAll();
+      }
+    }
+
+    function renderStats() {
+      let totalPeople = 0;
+      let totalAdults = 0;
+      let totalChildren = 0;
+      let totalGuests = 0;
+      let guestFamilies = 0;
+      let meatCount = 0;
+      let vegCount = 0;
+      let noteCount = 0;
+
+      for (const r of registrations) {
+        const a = Number(r.adults || 0);
+        const c = Number(r.children || 0);
+        const t = a + c;
+        totalAdults += a;
+        totalChildren += c;
+        totalPeople += t;
+
+        if (r.bringGuest === '是' || Number(r.guestCount || 0) > 0) {
+          guestFamilies += 1;
+          totalGuests += Number(r.guestCount || 0);
+        }
+
+        if (r.diet === '素食') {
+          vegCount += t;
+        } else {
+          meatCount += t;
+        }
+
+        if (r.dietNote && r.dietNote.trim()) {
+          noteCount += 1;
+        }
+      }
+
+      document.getElementById('statTotalPeople').textContent = totalPeople;
+      document.getElementById('statTotalGroups').textContent = `共 ${registrations.length} 組報名`;
+      document.getElementById('statAdults').textContent = totalAdults;
+      document.getElementById('statChildren').textContent = totalChildren;
+      document.getElementById('statGuests').textContent = totalGuests;
+      document.getElementById('statGuestFamilies').textContent = `${guestFamilies} 組攜伴參加`;
+      document.getElementById('statMeat').textContent = meatCount;
+      document.getElementById('statVeg').textContent = vegCount;
+      document.getElementById('statDietNotes').textContent = `${noteCount} 筆特殊飲食備註`;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('rosterBody');
+      const q = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+
+      const filtered = registrations.filter(r => {
+        if (!q) return true;
+        return (
+          (r.name || '').toLowerCase().includes(q) ||
+          (r.phone || '').toLowerCase().includes(q) ||
+          (r.group || '').toLowerCase().includes(q) ||
+          (r.dietNote || '').toLowerCase().includes(q)
+        );
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="empty-state">目前尚無符合的報名紀錄，快來填寫第一筆報名吧！🎄</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => {
+        const dietClass = r.diet === '素食' ? 'tag-veg' : 'tag-meat';
+        const guestBadge = (r.bringGuest === '是' && Number(r.guestCount) > 0)
+          ? `<span class="tag tag-guest">🌟 含新朋友 ${r.guestCount} 位</span>`
+          : `<span style="color:var(--text-muted);">—</span>`;
+
+        return `
+          <tr>
+            <td style="color:var(--text-muted); font-size:0.8rem;">${escapeHtml(r.createdAt || '')}</td>
+            <td style="font-weight:700; color:var(--gold-bright);">${escapeHtml(r.name)}</td>
+            <td>${escapeHtml(r.phone)}</td>
+            <td>${escapeHtml(r.group)}</td>
+            <td><strong>${Number(r.adults || 0) + Number(r.children || 0)}</strong> 人 <span style="color:var(--text-muted); font-size:0.8rem;">(${Number(r.adults || 0)}大 ${Number(r.children || 0)}小)</span></td>
+            <td>${guestBadge}</td>
+            <td>
+              <span class="tag ${dietClass}">${escapeHtml(r.diet || '葷食')}</span>
+              ${r.dietNote ? `<div style="font-size:0.8rem; color:#f3d5b5; margin-top:4px;">${escapeHtml(r.dietNote)}</div>` : ''}
+            </td>
+            <td>
+              <button class="btn" type="button" style="padding:4px 9px; font-size:0.76rem;" onclick="deleteRow('${r.id}')">刪除</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function deleteRow(id) {
+      if (!confirm('確定要刪除這筆本機報名紀錄嗎？')) return;
+      registrations = registrations.filter(r => r.id !== id);
+      saveLocalRegistrations();
+      renderAll();
+      showToast('已刪除該筆紀錄');
+    }
+
+    function renderAll() {
+      renderStats();
+      renderTable();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Export CSV with UTF-8 BOM for Excel
+    function exportCsv() {
+      if (registrations.length === 0) {
+        alert('目前還沒有報名資料可匯出喔！');
+        return;
+      }
+      const headers = ['報名時間', '姓名', '聯絡電話', '所屬小組', '大人人數', '小孩人數', '總人數', '是否攜帶新朋友', '新朋友人數', '飲食需求', '飲食與過敏備註'];
+      const rows = registrations.map(r => [
+        r.createdAt || '',
+        r.name || '',
+        r.phone || '',
+        r.group || '',
+        r.adults || 0,
+        r.children || 0,
+        (Number(r.adults || 0) + Number(r.children || 0)),
+        r.bringGuest || '否',
+        r.guestCount || 0,
+        r.diet || '葷食',
+        r.dietNote || ''
+      ]);
+
+      const csvContent = '\uFEFF' + [headers, ...rows]
+        .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+        .join('\r\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${eventConfig.groupPrefix || ''}小組_2026聖誕餐會報名名單.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 已匯出 Excel (CSV) 報表！');
+    }
+
+    // Download Poster PNG with Overlaid Text rendered on Canvas
+    function downloadPosterPng() {
+      const img = document.getElementById('posterImg');
+      const canvas = document.createElement('canvas');
+      const w = img.naturalWidth || 576;
+      const h = img.naturalHeight || 1024;
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+
+      ctx.drawImage(img, 0, 0, w, h);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 2;
+
+      // 1. Group Prefix right-aligned before "小組 聖誕餐會"
+      ctx.font = '700 26px "Noto Sans TC", sans-serif';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(eventConfig.groupPrefix || '', w * 0.408, h * 0.713);
+
+      // 2. Date, Time, Location left-aligned after colons
+      ctx.font = '600 19px "Noto Sans TC", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText(eventConfig.date || '', w * 0.345, h * 0.782);
+      ctx.fillText(eventConfig.time || '', w * 0.345, h * 0.828);
+      ctx.fillText(eventConfig.location || '', w * 0.345, h * 0.874);
+
+      const link = document.createElement('a');
+      link.download = `THE_WAY_${eventConfig.groupPrefix || ''}小組聖誕餐會海報.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('🖼️ 已下載填好資訊的聖誕海報圖檔！');
+    }
+
+    function copyShareInvite() {
+      const text = [
+        `🎄【THE WAY｜${eventConfig.groupPrefix || ''}小組 聖誕餐會邀請】🎄`,
+        `「耶穌說：我就是道路、真理、生命；若不藉着我，沒有人能到父那裏去。」（約翰福音 14:6）`,
+        ``,
+        `📅 日期：${eventConfig.date}`,
+        `⏰ 時間：${eventConfig.time}`,
+        `📍 地點：${eventConfig.location}`,
+        ``,
+        `誠摯邀請您與家人朋友一起來參加溫馨聖誕餐會！請點擊下方網頁填寫出席人數與飲食需求，方便我們為您預備餐點：`
+      ].join('\n');
+
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('💬 已複製 LINE 邀請文案！');
+      });
+    }
+
+    // Settings Modal
+    function openSettingsModal() {
+      document.getElementById('cfgGroup').value = eventConfig.groupPrefix || '';
+      document.getElementById('cfgDate').value = eventConfig.date || '';
+      document.getElementById('cfgTime').value = eventConfig.time || '';
+      document.getElementById('cfgLocation').value = eventConfig.location || '';
+      document.getElementById('cfgScriptUrl').value = eventConfig.googleScriptUrl || '';
+      document.getElementById('settingsModal').classList.add('open');
+    }
+
+    function closeSettingsModal() {
+      document.getElementById('settingsModal').classList.remove('open');
+    }
+
+    function saveSettings() {
+      eventConfig = {
+        groupPrefix: document.getElementById('cfgGroup').value.trim(),
+        date: document.getElementById('cfgDate').value.trim(),
+        time: document.getElementById('cfgTime').value.trim(),
+        location: document.getElementById('cfgLocation').value.trim(),
+        googleScriptUrl: document.getElementById('cfgScriptUrl').value.trim()
+      };
+      localStorage.setItem(STORAGE_KEY_CFG, JSON.stringify(eventConfig));
+      document.getElementById('inputGroup').value = eventConfig.groupPrefix ? `${eventConfig.groupPrefix}小組` : '';
+      applyConfigToUI();
+      closeSettingsModal();
+      if (eventConfig.googleScriptUrl) {
+        refreshFromCloud();
+      } else {
+        showToast('✅ 已更新海報資訊與設定！');
+      }
+    }
+
+    function loadSampleData() {
+      const grp = eventConfig.groupPrefix ? `${eventConfig.groupPrefix}小組` : '恩典小組';
+      registrations = [
+        {
+          id: 'sample-1',
+          createdAt: '2026/11/14 17:30',
+          name: '林恩典',
+          phone: '0912-345-678',
+          group: grp,
+          adults: 2,
+          children: 1,
+          total: 3,
+          bringGuest: '是',
+          guestCount: 1,
+          diet: '葷食',
+          dietNote: '新朋友：陳小華｜需 1 張兒童餐椅'
+        },
+        {
+          id: 'sample-2',
+          createdAt: '2026/11/14 17:35',
+          name: '張喜樂',
+          phone: '0922-888-168',
+          group: grp,
+          adults: 1,
+          children: 0,
+          total: 1,
+          bringGuest: '否',
+          guestCount: 0,
+          diet: '素食',
+          dietNote: '蛋奶素'
+        },
+        {
+          id: 'sample-3',
+          createdAt: '2026/11/14 17:40',
+          name: '王平安',
+          phone: '0933-777-999',
+          group: grp,
+          adults: 3,
+          children: 2,
+          total: 5,
+          bringGuest: '是',
+          guestCount: 2,
+          diet: '葷素皆有',
+          dietNote: '新朋友：李先生夫婦｜其中 1 位大人吃全素'
+        }
+      ];
+      saveLocalRegistrations();
+      renderAll();
+      closeSettingsModal();
+      showToast('🧪 已載入 3 筆範例報名資料（共 9 人出席）！');
+    }
+
+    function copyAppsScriptCode() {
+      const code = `const SHEET_NAME = '報名名單';
+function getOrCreateSheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(SHEET_NAME);
+    const headers = ['報名時間','姓名','聯絡電話','所屬小組','大人人數','小孩人數','總人數','是否攜帶新朋友','新朋友人數','飲食需求','過敏或飲食備註'];
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]).setBackground('#7c1d1d').setFontColor('#ffffff').setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+function doGet() {
+  const sheet = getOrCreateSheet();
+  const data = sheet.getDataRange().getValues();
+  const rows = data.slice(1).map((row, idx) => ({
+    id: 'row-' + (idx + 2),
+    createdAt: row[0] ? Utilities.formatDate(new Date(row[0]), 'Asia/Taipei', 'yyyy/MM/dd HH:mm') : '',
+    name: String(row[1] || ''), phone: String(row[2] || ''), group: String(row[3] || ''),
+    adults: Number(row[4] || 0), children: Number(row[5] || 0), total: Number(row[6] || 0),
+    bringGuest: String(row[7] || '否'), guestCount: Number(row[8] || 0),
+    diet: String(row[9] || '葷食'), dietNote: String(row[10] || '')
+  }));
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, registrations: rows.reverse() })).setMimeType(ContentService.MimeType.JSON);
+}
+function doPost(e) {
+  const sheet = getOrCreateSheet();
+  const p = JSON.parse(e.postData.contents);
+  const adults = Number(p.adults || 0), children = Number(p.children || 0);
+  sheet.appendRow([new Date(), p.name || '', p.phone || '', p.group || '', adults, children, adults + children, p.bringGuest || '否', Number(p.guestCount || 0), p.diet || '葷食', p.dietNote || '']);
+  return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
+}`;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast('📋 已複製 Google Apps Script 程式碼！');
+      });
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById('toastBox');
+      box.textContent = msg;
+      box.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => box.classList.remove('show'), 3200);
+    }
+
+    // Initialize
+    applyConfigToUI();
+    updateFormPreview();
+    renderAll();
+    if (eventConfig.googleScriptUrl) {
+      refreshFromCloud();
+    }
+  </script>
+</body>
+</html>
