@@ -272,7 +272,30 @@
 
     .poster-overlay-location {
       top: 86.0%;
-      height: 2.8%;
+      right: 4%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 2px;
+      line-height: 1.25;
+      overflow: visible;
+    }
+
+    .poster-overlay-location .loc-line1 {
+      font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
+      font-weight: 700;
+      font-size: clamp(0.88rem, 2.0vw, 1.06rem);
+      letter-spacing: 0.08em;
+      color: #ffffff;
+    }
+
+    .poster-overlay-location .loc-line2 {
+      font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
+      font-weight: 500;
+      font-size: clamp(0.64rem, 1.4vw, 0.78rem);
+      letter-spacing: 0.06em;
+      color: #dcd7d4;
     }
 
     .poster-actions {
@@ -722,7 +745,10 @@
           </div>
           <div class="poster-overlay-field poster-overlay-date" id="posterDateText">2026/12/13(日)</div>
           <div class="poster-overlay-field poster-overlay-time" id="posterTimeText">12:00~14:00(11:45入場)</div>
-          <div class="poster-overlay-field poster-overlay-location" id="posterLocationText">江子翠行道會副堂 新北市板橋區文化路二段282號3樓</div>
+          <div class="poster-overlay-field poster-overlay-location" id="posterLocationText">
+            <div class="loc-line1" id="posterLocLine1">江子翠行道會副堂</div>
+            <div class="loc-line2" id="posterLocLine2">新北市板橋區文化路二段282號3樓</div>
+          </div>
         </div>
 
         <div class="poster-actions">
@@ -1028,6 +1054,13 @@
       return parts.map(p => p.endsWith('小組') ? p : `${p}小組`);
     }
 
+    function splitLocationLines(rawLoc) {
+      const s = (rawLoc || '').trim();
+      const idx = s.search(/\s+/);
+      if (idx === -1) return [s, ''];
+      return [s.slice(0, idx).trim(), s.slice(idx).trim()];
+    }
+
     function applyConfigToUI() {
       const grp = (eventConfig.groupPrefix || '基明、榮雄').trim().replace(/小組$/, '');
       document.getElementById('navGroupName').textContent = grp;
@@ -1044,7 +1077,15 @@
 
       document.getElementById('posterDateText').textContent = eventConfig.date || '';
       document.getElementById('posterTimeText').textContent = eventConfig.time || '';
-      document.getElementById('posterLocationText').textContent = eventConfig.location || '';
+
+      const locParts = splitLocationLines(eventConfig.location || '');
+      const locLine1El = document.getElementById('posterLocLine1');
+      const locLine2El = document.getElementById('posterLocLine2');
+      if (locLine1El && locLine2El) {
+        locLine1El.textContent = locParts[0];
+        locLine2El.textContent = locParts[1];
+        locLine2El.style.display = locParts[1] ? 'block' : 'none';
+      }
 
       // Populate group filter dropdown in roster
       const groups = getGroupList();
@@ -1466,7 +1507,16 @@
       ctx.textAlign = 'left';
       ctx.fillText(eventConfig.date || '', w * 0.345, h * 0.782);
       ctx.fillText(eventConfig.time || '', w * 0.345, h * 0.828);
-      ctx.fillText(eventConfig.location || '', w * 0.345, h * 0.874);
+
+      const locParts = splitLocationLines(eventConfig.location || '');
+      ctx.font = '700 20px "Noto Serif TC", "Noto Sans TC", sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(locParts[0] || '', w * 0.345, h * 0.873);
+      if (locParts[1]) {
+        ctx.font = '500 14px "Noto Serif TC", "Noto Sans TC", sans-serif';
+        ctx.fillStyle = '#dcd7d4';
+        ctx.fillText(locParts[1], w * 0.345, h * 0.897);
+      }
 
       const link = document.createElement('a');
       link.download = `THE_WAY_${grpText}小組聖誕餐會海報.png`;
