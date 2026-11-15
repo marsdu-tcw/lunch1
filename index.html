@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <title>THE WAY｜2026 聖誕季 基明、榮雄小組聖誕餐會報名統計</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +29,11 @@
       padding: 0;
     }
 
+    html, body {
+      overflow-x: hidden;
+      -webkit-text-size-adjust: 100%;
+    }
+
     body {
       font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
       background:
@@ -37,7 +42,7 @@
       color: var(--text-main);
       min-height: 100vh;
       line-height: 1.6;
-      padding-bottom: 60px;
+      padding-bottom: max(48px, env(safe-area-inset-bottom));
     }
 
     /* Top bar */
@@ -196,6 +201,7 @@
       position: relative;
       width: 100%;
       aspect-ratio: 576 / 1024;
+      container-type: inline-size;
       border-radius: 14px;
       overflow: hidden;
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
@@ -233,13 +239,13 @@
 
     .poster-overlay-group .poster-line1 {
       font-weight: 700;
-      font-size: clamp(1.02rem, 2.4vw, 1.34rem);
+      font-size: clamp(0.88rem, 4.2cqw, 1.34rem);
       letter-spacing: 0.08em;
     }
 
     .poster-overlay-group .poster-line2 {
       font-weight: 900;
-      font-size: clamp(1.18rem, 2.85vw, 1.58rem);
+      font-size: clamp(1.02rem, 5.1cqw, 1.58rem);
       letter-spacing: 0.1em;
     }
 
@@ -250,8 +256,8 @@
       color: #ffffff;
       font-family: 'Noto Sans TC', sans-serif;
       font-weight: 600;
-      font-size: clamp(0.84rem, 1.9vw, 1.02rem);
-      letter-spacing: 0.05em;
+      font-size: clamp(0.74rem, 3.3cqw, 1.02rem);
+      letter-spacing: 0.04em;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
       display: flex;
       align-items: center;
@@ -271,7 +277,7 @@
 
     .poster-overlay-location {
       top: 86.0%;
-      right: 4%;
+      right: 3%;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -284,7 +290,7 @@
     .poster-overlay-location .loc-line1 {
       font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
       font-weight: 700;
-      font-size: clamp(0.88rem, 2.0vw, 1.06rem);
+      font-size: clamp(0.76rem, 3.5cqw, 1.06rem);
       letter-spacing: 0.08em;
       color: #ffffff;
     }
@@ -292,8 +298,8 @@
     .poster-overlay-location .loc-line2 {
       font-family: 'Noto Serif TC', 'Noto Sans TC', serif;
       font-weight: 500;
-      font-size: clamp(0.64rem, 1.4vw, 0.78rem);
-      letter-spacing: 0.06em;
+      font-size: clamp(0.56rem, 2.42cqw, 0.78rem);
+      letter-spacing: 0.04em;
       color: #dcd7d4;
     }
 
@@ -711,6 +717,175 @@
       transform: translateY(0);
       opacity: 1;
     }
+
+    .roster-toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .roster-toolbar select {
+      width: auto;
+      padding: 7px 12px;
+      font-size: 0.85rem;
+    }
+
+    .roster-toolbar input[type="text"] {
+      width: 210px;
+      padding: 7px 12px;
+      font-size: 0.85rem;
+    }
+
+    /* Mobile Display Responsive Optimization */
+    @media (max-width: 640px) {
+      .topbar {
+        padding: 10px 12px;
+      }
+
+      .topbar-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .brand {
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+        gap: 6px;
+      }
+
+      .brand-title {
+        font-size: 0.92rem;
+      }
+
+      .topbar-actions {
+        justify-content: space-between;
+        width: 100%;
+      }
+
+      .sync-pill {
+        font-size: 0.74rem;
+        padding: 4px 10px;
+        flex: 1;
+        justify-content: center;
+      }
+
+      .topbar-actions .btn {
+        font-size: 0.78rem;
+        padding: 6px 10px;
+      }
+
+      .container {
+        margin-top: 14px;
+        padding: 0 10px;
+      }
+
+      .hero-grid {
+        gap: 16px;
+      }
+
+      .content-col {
+        gap: 16px;
+      }
+
+      .poster-panel {
+        padding: 12px;
+        border-radius: 16px;
+        max-width: 100%;
+      }
+
+      .poster-actions {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .poster-actions .btn {
+        padding: 10px 8px;
+        font-size: 0.84rem;
+      }
+
+      .card {
+        padding: 16px 14px;
+        border-radius: 16px;
+      }
+
+      .card-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .card-title {
+        font-size: 1.08rem;
+      }
+
+      .stats-grid {
+        gap: 10px;
+      }
+
+      .stat-box {
+        padding: 12px 10px;
+      }
+
+      .stat-value {
+        font-size: 1.65rem;
+      }
+
+      /* Prevent iOS Safari / LINE WebView auto-zoom on input focus */
+      input[type="text"],
+      input[type="tel"],
+      input[type="number"],
+      input[type="url"],
+      select,
+      textarea {
+        font-size: 16px;
+      }
+
+      .radio-pills {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .radio-pill {
+        width: 100%;
+      }
+
+      .roster-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+      }
+
+      .roster-toolbar select,
+      .roster-toolbar input[type="text"],
+      .roster-toolbar .btn {
+        width: 100%;
+        font-size: 15px;
+        padding: 9px 12px;
+      }
+
+      .table-wrap {
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .modal-backdrop {
+        padding: 10px;
+      }
+
+      .modal {
+        padding: 16px;
+        border-radius: 16px;
+      }
+
+      .toast {
+        left: 12px;
+        right: 12px;
+        bottom: 16px;
+        text-align: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -924,11 +1099,11 @@
               <h2 class="card-title">📋 已報名名單一覽</h2>
               <p class="card-subtitle">匯出 CSV (Excel) 時，每位新朋友皆會清楚備註所屬小組及是由哪一位出席的弟兄或姊妹帶來的</p>
             </div>
-            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
-              <select id="groupFilterSelect" onchange="renderTable()" style="width: auto; padding: 7px 12px; font-size: 0.85rem;">
+            <div class="roster-toolbar">
+              <select id="groupFilterSelect" onchange="renderTable()">
                 <option value="">全部小組</option>
               </select>
-              <input type="text" id="searchInput" placeholder="🔍 搜尋弟兄姊妹、新朋友或電話..." oninput="renderTable()" style="width: 210px; padding: 7px 12px; font-size: 0.85rem;" />
+              <input type="text" id="searchInput" placeholder="🔍 搜尋弟兄姊妹、新朋友或電話..." oninput="renderTable()" />
               <button class="btn btn-primary" type="button" onclick="exportCsv()">📊 匯出 CSV (含帶人備註)</button>
             </div>
           </div>
