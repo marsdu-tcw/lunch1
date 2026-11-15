@@ -246,18 +246,17 @@
     .poster-overlay-field {
       position: absolute;
       left: 34.5%;
-      right: 10%;
+      right: 2.5%;
       color: #ffffff;
       font-family: 'Noto Sans TC', sans-serif;
       font-weight: 600;
       font-size: clamp(0.84rem, 1.9vw, 1.02rem);
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
       display: flex;
       align-items: center;
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      overflow: visible;
     }
 
     .poster-overlay-date {
@@ -754,6 +753,13 @@
         <div class="poster-actions">
           <button class="btn btn-primary" type="button" onclick="downloadPosterPng()">📥 下載海報圖檔</button>
           <button class="btn" type="button" onclick="copyShareInvite()">💬 複製 LINE 邀請文</button>
+        </div>
+        <div id="lineInviteGeneratedBox" style="display:none; margin-top:12px; background:rgba(16,4,4,0.88); border:1px solid var(--gold); border-radius:12px; padding:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:0.82rem; font-weight:700; color:var(--gold-bright);">✅ 已自動產生並複製 LINE 邀請文：</span>
+            <button class="btn" type="button" style="padding:2px 8px; font-size:0.74rem;" onclick="document.getElementById('lineInviteGeneratedBox').style.display='none'">收起</button>
+          </div>
+          <textarea id="lineInviteTextarea" readonly rows="6" style="font-size:0.84rem; line-height:1.5; resize:none; background:rgba(0,0,0,0.45); color:#fff9f2; border-color:rgba(246,201,103,0.35);" onclick="this.select()"></textarea>
         </div>
         <p class="poster-hint">點選右上角「⚙️ 設定」可隨時調整海報上的小組名稱（支援多小組如「基明、榮雄」）、日期、時間與地點</p>
       </aside>
@@ -1527,19 +1533,33 @@
 
     function copyShareInvite() {
       const text = [
-        `🎄【THE WAY｜${eventConfig.groupPrefix || ''}小組 聖誕餐會邀請】🎄`,
-        `「耶穌說：我就是道路、真理、生命；若不藉着我，沒有人能到父那裏去。」（約翰福音 14:6）`,
-        ``,
-        `📅 日期：${eventConfig.date}`,
-        `⏰ 時間：${eventConfig.time}`,
-        `📍 地點：${eventConfig.location}`,
-        ``,
-        `誠摯邀請 ${getGroupList().join('、')} 的弟兄姊妹與新朋友一起來參加溫馨聖誕餐會！請點擊下方網頁填寫出席姓名與攜伴資訊：`
+        `Ho Ho Ho！🎅 聖誕節快到了，我們準備了一場溫馨的聖誕餐會，想找您一起來吃飯聊聊天！`,
+        `• 時間：[12/13(日) 12:00–14:00] 11:45入場`,
+        `• 地點：[江子翠行道會副堂 / 如邀請卡]（捷運3號出口前20公尺）`,
+        `• 內容：享用美味午餐 + 見證+信息`,
+        `• 回覆：請在 [12/10] 前傳訊息跟我說「OK，人數」，方便我訂餐喔！期待見到您～`
       ].join('\n');
 
-      navigator.clipboard.writeText(text).then(() => {
-        showToast('💬 已複製 LINE 邀請文案！');
-      });
+      const box = document.getElementById('lineInviteGeneratedBox');
+      const ta = document.getElementById('lineInviteTextarea');
+      if (box && ta) {
+        ta.value = text;
+        box.style.display = 'block';
+        ta.focus();
+        ta.select();
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('💬 已自動產生並複製 LINE 邀請文！');
+        }).catch(() => {
+          document.execCommand('copy');
+          showToast('💬 已自動產生並複製 LINE 邀請文！');
+        });
+      } else {
+        document.execCommand('copy');
+        showToast('💬 已自動產生並複製 LINE 邀請文！');
+      }
     }
 
     // Settings Modal
