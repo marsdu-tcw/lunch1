@@ -211,30 +211,36 @@
       display: block;
     }
 
-    /* Dynamic text overlays positioned to match the poster blanks - supports 1 or multiple groups */
+    /* Dynamic two-line centered title positioned above the poster's double line */
     .poster-overlay-group {
       position: absolute;
-      top: 68.7%;
-      left: 3.5%;
-      width: 37.8%;
-      height: 4.5%;
+      top: 65.2%;
+      left: 13.9%;
+      width: 70%;
+      height: 8.6%;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
-      padding-right: 4px;
+      justify-content: center;
+      gap: 2px;
       color: #ffffff;
       font-family: 'Noto Sans TC', sans-serif;
-      font-weight: 700;
-      font-size: clamp(0.95rem, 2.3vw, 1.32rem);
-      letter-spacing: 0.04em;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.88);
+      text-align: center;
       white-space: nowrap;
-      overflow: visible;
+      line-height: 1.22;
     }
 
-    .poster-overlay-group.multi-group {
-      font-size: clamp(0.82rem, 1.85vw, 1.06rem);
-      letter-spacing: 0.01em;
+    .poster-overlay-group .poster-line1 {
+      font-weight: 700;
+      font-size: clamp(1.02rem, 2.4vw, 1.34rem);
+      letter-spacing: 0.08em;
+    }
+
+    .poster-overlay-group .poster-line2 {
+      font-weight: 900;
+      font-size: clamp(1.18rem, 2.85vw, 1.58rem);
+      letter-spacing: 0.1em;
     }
 
     .poster-overlay-field {
@@ -710,10 +716,13 @@
       <aside class="poster-panel">
         <div class="poster-stage" id="posterStage">
           <img id="posterImg" src="poster.jpg" alt="THE WAY 2026 聖誕季 小組聖誕餐會海報" crossorigin="anonymous" />
-          <div class="poster-overlay-group multi-group" id="posterGroupText">基明、榮雄</div>
-          <div class="poster-overlay-field poster-overlay-date" id="posterDateText">2026/12/19 (六)</div>
-          <div class="poster-overlay-field poster-overlay-time" id="posterTimeText">18:30 入席（19:00 開始）</div>
-          <div class="poster-overlay-field poster-overlay-location" id="posterLocationText">CHANGE LIFE CHURCH 交誼廳</div>
+          <div class="poster-overlay-group" id="posterGroupText">
+            <div class="poster-line1" id="posterGroupLine1">基明、榮雄小組</div>
+            <div class="poster-line2" id="posterGroupLine2">聖誕福音餐會</div>
+          </div>
+          <div class="poster-overlay-field poster-overlay-date" id="posterDateText">2026/12/13(日)</div>
+          <div class="poster-overlay-field poster-overlay-time" id="posterTimeText">12:00~14:00(11:45入場)</div>
+          <div class="poster-overlay-field poster-overlay-location" id="posterLocationText">江子翠行道會副堂 新北市板橋區文化路二段282號3樓</div>
         </div>
 
         <div class="poster-actions">
@@ -971,13 +980,13 @@
     // ============================================================================
     const DEFAULT_EVENT_CONFIG = {
       groupPrefix: '基明、榮雄',
-      date: '2026/12/19 (六)',
-      time: '18:30 入席（19:00 開始）',
-      location: 'CHANGE LIFE CHURCH 交誼廳',
+      date: '2026/12/13(日)',
+      time: '12:00~14:00(11:45入場)',
+      location: '江子翠行道會副堂 新北市板橋區文化路二段282號3樓',
       googleScriptUrl: '' // 貼上部署好的 Google Apps Script 網址即可全自動同步
     };
 
-    const STORAGE_KEY_CFG = 'the_way_2026_config_v3';
+    const STORAGE_KEY_CFG = 'the_way_2026_config_v4';
     const STORAGE_KEY_ROWS = 'the_way_2026_registrations_v2';
 
     let eventConfig = loadConfig();
@@ -986,11 +995,12 @@
     function loadConfig() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY_CFG);
-        if (!raw) return { ...DEFAULT_EVENT_CONFIG };
-        const parsed = JSON.parse(raw);
-        if (!parsed.groupPrefix || parsed.groupPrefix === '恩典' || parsed.groupPrefix === '榮雄') {
-          parsed.groupPrefix = '基明、榮雄';
+        if (!raw) {
+          const prevRaw = localStorage.getItem('the_way_2026_config_v3');
+          const prevUrl = prevRaw ? (JSON.parse(prevRaw).googleScriptUrl || '') : '';
+          return { ...DEFAULT_EVENT_CONFIG, googleScriptUrl: prevUrl };
         }
+        const parsed = JSON.parse(raw);
         return { ...DEFAULT_EVENT_CONFIG, ...parsed };
       } catch (e) {
         return { ...DEFAULT_EVENT_CONFIG };
@@ -1027,9 +1037,10 @@
       const memberGrpLabel = document.getElementById('statMemberGroupLabel');
       if (memberGrpLabel) memberGrpLabel.textContent = `${grp}小組`;
 
-      const posterGroupEl = document.getElementById('posterGroupText');
-      posterGroupEl.textContent = grp;
-      posterGroupEl.classList.toggle('multi-group', grp.length > 2);
+      const line1El = document.getElementById('posterGroupLine1');
+      if (line1El) line1El.textContent = `${grp}小組`;
+      const line2El = document.getElementById('posterGroupLine2');
+      if (line2El) line2El.textContent = '聖誕福音餐會';
 
       document.getElementById('posterDateText').textContent = eventConfig.date || '';
       document.getElementById('posterTimeText').textContent = eventConfig.time || '';
@@ -1439,13 +1450,16 @@
       ctx.shadowBlur = 6;
       ctx.shadowOffsetY = 2;
 
-      // 1. Group Prefix right-aligned before "小組 聖誕餐會"
-      const grpText = eventConfig.groupPrefix || '';
-      const fontSize = grpText.length > 3 ? 21 : 26;
-      ctx.font = `700 ${fontSize}px "Noto Sans TC", sans-serif`;
-      ctx.textAlign = 'right';
+      // 1. Two-line centered title above the double horizontal line:
+      //    Line 1: 基明、榮雄小組
+      //    Line 2: 聖誕福音餐會
+      const grpText = (eventConfig.groupPrefix || '基明、榮雄').trim().replace(/小組$/, '');
+      ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillText(grpText, w * 0.410, h * 0.713);
+      ctx.font = '700 24px "Noto Sans TC", sans-serif';
+      ctx.fillText(`${grpText}小組`, w * 0.489, h * 0.678);
+      ctx.font = '900 30px "Noto Sans TC", sans-serif';
+      ctx.fillText('聖誕福音餐會', w * 0.489, h * 0.715);
 
       // 2. Date, Time, Location left-aligned after colons
       ctx.font = '600 19px "Noto Sans TC", sans-serif';
